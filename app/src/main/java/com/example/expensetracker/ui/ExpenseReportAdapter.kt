@@ -27,7 +27,7 @@ class ExpenseReportAdapter(
     }
 
     override fun getItemCount(): Int {
-        return 6
+        return 0
     }
     inner class CardHolder(itemView: View) :RecyclerView.ViewHolder(itemView){
 

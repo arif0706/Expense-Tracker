@@ -3,10 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.23148148148148148" />
+        <entry key="app/src/main/res/drawable/calendar_bg.xml" value="0.2948717948717949" />
+        <entry key="app/src/main/res/drawable/edit_text_bg.xml" value="0.32222222222222224" />
         <entry key="app/src/main/res/drawable/google_icon.xml" value="0.26927083333333335" />
+        <entry key="app/src/main/res/drawable/ic_close.xml" value="0.30520833333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3203125" />
+        <entry key="app/src/main/res/layout/activity_on_boarding_activity.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/custom_calendar_day.xml" value="0.5" />
         <entry key="app/src/main/res/layout/expense_report_card.xml" value="0.2526041666666667" />
-        <entry key="app/src/main/res/layout/fragment_add_expense_dialog_fragment.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_add_expense_dialog_fragment.xml" value="0.27874015748031494" />
+        <entry key="app/src/main/res/layout/layout_calendar.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_calender.xml" value="0.1" />
         <entry key="app/src/main/res/menu/menu_add_expense_dialog.xml" value="0.1" />
         <entry key="core/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>

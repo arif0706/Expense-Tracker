@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.expensetracker.ui.MainActivity
+import com.example.expensetracker.ui.toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_on_boarding_activity.*
 
 class OnBoardingActivity : AppCompatActivity() {
@@ -17,6 +22,9 @@ class OnBoardingActivity : AppCompatActivity() {
         private const val RC_SIGN_IN=9001
     }
 
+    private val auth : FirebaseAuth by lazy {
+        Firebase.auth
+    }
     private val googleSignInClient : GoogleSignInClient by lazy {
 
         GoogleSignIn.getClient(
@@ -54,15 +62,34 @@ class OnBoardingActivity : AppCompatActivity() {
                 val task=GoogleSignIn.getSignedInAccountFromIntent(data)
                 val account = task.getResult(ApiException::class.java)
                 account?.idToken?.let {
-                    Toast.makeText(this,"success",Toast.LENGTH_LONG).show()
-                    startActivity(Intent(this,MainActivity::class.java))
+                    firebaseAuthWithGoogle(account.idToken)
                 }?:run{
-                    Toast.makeText(this,"Unable to sign in",Toast.LENGTH_LONG).show()
+                    toast("Unable to Sign in")
                 }
             }
             catch (ex:Exception){
-                Toast.makeText(this, ex.localizedMessage, Toast.LENGTH_LONG).show()
+                toast(ex.localizedMessage.toString())
             }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String?) {
+        val credential=GoogleAuthProvider.getCredential(idToken,null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this){task->
+                if(task.isSuccessful)
+                    startActivity(Intent(this,MainActivity::class.java))
+                else
+                    toast("Login failed")
+            }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val currentUser=auth.currentUser
+        if(currentUser!=null){
+            startActivity(Intent(this,MainActivity::class.java))
         }
     }
 }

@@ -8,4 +8,10 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
+    <style name="TextLabel" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">@dimen/spacing_3x</item>
+        <item name="android:padding">@dimen/spacing_4x</item>
+    </style>
 </resources>

@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     implementation project(path: ':core')
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
     testImplementation 'junit:junit:4.+'
 
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.12.0'
@@ -99,7 +100,7 @@ dependencies {
         // optional - Test helpers for LiveData
         testImplementation("androidx.arch.core:core-testing:$arch_version")
 
-        implementation" io.insert-koin:koin-android:$koin"
+        implementation "io.insert-koin:koin-android:$koin"
 
         implementation "io.insert-koin:koin-androidx-viewmodel:$koin"
 
