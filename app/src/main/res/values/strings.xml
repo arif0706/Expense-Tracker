@@ -1,6 +1,5 @@
 <resources>
 
-    <string name="google_sign_in_client_id" translatable="false">132549222555-hjenbmmqjjjrms6tdmram97vdo0hia9s.apps.googleusercontent.com</string>
 
     <string name="app_name">Expense Tracker</string>
 
