@@ -7,13 +7,17 @@
     <string name="google_sign_in">Sign in</string>
 
 
-<!--    days of the calendar-->
 
-    <string name="monday">MON</string>
-    <string name="tuesday">TUE</string>
-    <string name="wednesday">WED</string>
-    <string name="thursday">THU</string>
-    <string name="friday">FRI</string>
-    <string name="saturday">SAT</string>
-    <string name="sunday">SUN</string>
+
+    <string name="sort_by">Sort by</string>
+    <string name="view_transactions">View Transactions</string>
+    <string name="add_transaction">Add Transaction</string>
+    <string name="rupee_symbol">₹</string>
+    <string name="switch_account">Switch Account</string>
+    <string name="profile">Profile</string>
+    <string name="compare">Compare</string>
+
+
+    <string name="sign_out_message">By switching accounts you will be redirected to start screen and signed out from the current account.</string>
+
 </resources>

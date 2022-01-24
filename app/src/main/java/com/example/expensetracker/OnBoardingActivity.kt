@@ -1,10 +1,10 @@
 package com.example.expensetracker
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import com.example.expensetracker.ui.MainActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import com.example.expensetracker.ui.home.MainActivity
 import com.example.expensetracker.ui.toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -15,12 +15,15 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_on_boarding_activity.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OnBoardingActivity : AppCompatActivity() {
 
     companion object{
         private const val RC_SIGN_IN=9001
     }
+
+    private val viewModel:OnBoardingActivityViewModel by viewModel()
 
     private val auth : FirebaseAuth by lazy {
         Firebase.auth
@@ -39,12 +42,15 @@ class OnBoardingActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_on_boarding_activity)
 
         google_sign_in.setOnClickListener{
             signInWithGoogle()
         }
+
 
     }
     private fun signInWithGoogle(){
@@ -77,8 +83,11 @@ class OnBoardingActivity : AppCompatActivity() {
         val credential=GoogleAuthProvider.getCredential(idToken,null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this){task->
-                if(task.isSuccessful)
-                    startActivity(Intent(this,MainActivity::class.java))
+                if(task.isSuccessful) {
+                    viewModel.updateUser()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
                 else
                     toast("Login failed")
             }
@@ -89,7 +98,8 @@ class OnBoardingActivity : AppCompatActivity() {
 
         val currentUser=auth.currentUser
         if(currentUser!=null){
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 }

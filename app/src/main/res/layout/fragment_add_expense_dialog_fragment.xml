@@ -42,17 +42,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_3x"
-                android:gravity="center"
+                android:gravity="start"
                 android:text="Add Amount"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/et_amount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_3x"
                 android:layout_marginTop="@dimen/spacing_3x"
+                android:layout_marginEnd="@dimen/spacing_3x"
                 android:background="@drawable/edit_text_bg"
                 android:cursorVisible="false"
                 android:hint="0"
@@ -77,13 +78,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_amount" />
 
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_3x"
+                app:singleSelection="true"
+                app:chipSpacingHorizontal="@dimen/spacing_4x"
+                app:layout_constraintTop_toBottomOf="@+id/et_purpose"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_3x"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_purpose">
+                app:layout_constraintTop_toBottomOf="@+id/chip_group">
 
                 <EditText
                     android:id="@+id/et_memories_desc"

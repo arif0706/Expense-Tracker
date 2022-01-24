@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
+    <color name="green_200">#1D7E68</color>
+    <color name="green_500">#175C4C</color>
+    <color name="green_700">#03372B</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="border_color">#C5CCD3</color>
+
+    <color name="chip_selected_color">#9FA8DA</color>
+
+
+    <!-- graph colors -->
+
+    <color name="graph_one">#C969B7</color>
+    <color name="graph_two">#F7993B</color>
+    <color name="graph_three">#FFDA24</color>
+    <color name="graph_four">#9FC743</color>
+    <color name="graph_five">#4BAA77</color>
+    <color name="graph_six">#42CDBF</color>
+    <color name="graph_seven">#0072F5</color>
+
+
 </resources>

@@ -1,75 +1,50 @@
 package com.example.expensetracker.repositories
 
 import android.content.Context
-import android.net.Uri
-import com.example.expensetracker.models.Expense
-import com.example.expensetracker.models.Memory
-import com.example.expensetracker.ui.ValidationUtil
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
+import com.example.expensetracker.repositories.FirebaseNodes.Companion.TOTAL_AMOUNT
+import com.example.expensetracker.repositories.FirebaseNodes.Companion.database
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class MainActivityRepo(
     private val userRepo: UserRepo,
-    private val context:Context
-){
+    private val context:Context,
+    private val expensesActivityRepo: ExpensesActivityRepo) {
 
-    companion object{
-        private const val NODE_USERS="USERS"
-        private const val NODE_USERS_DETAILS="USER_DETAILS"
-        private const val NODE_EXPENSES="USER_EXPENSES"
 
-        private const val STORAGE_PATH_UPLOADS="uploads/"
-    }
-
-    fun getDayToDayExpenses():List<Expense>{
-
-        return listOf(Expense())
-    }
-
-    fun addExpense(expense: Expense,callBack: MyCallBack) {
-
-        val storageReference=FirebaseStorage.getInstance().reference.child(STORAGE_PATH_UPLOADS+System.currentTimeMillis()+"."+ expense.memory?.filepath?.let { ValidationUtil.getFileExtension(context =context,uri = it) })
-
-        if(expense.memory?.filepath!=null){
-            expense.memory.filepath.let {
-                storageReference.putFile(it)
-                    .addOnSuccessListener {
-                        storageReference.downloadUrl.addOnCompleteListener{
-                            val newExpense=expense.copy(
-                                memory = Memory(desc = expense.memory.desc,url = it.result.toString())
-                            )
-                            addExpenseToDB(newExpense,callBack)
-                        }
-                    }
+    fun getTotalAmounts(callBack: MyCallBack){
+        userRepo.getCurrentUser().uid?.let { database.child(it).child(TOTAL_AMOUNT).addValueEventListener(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.value!=null) {
+                    val list = snapshot.value as HashMap<*, *>
+                    callBack.callBack(list)
+                }
             }
-        }
-        else{
-            if(expense.memory?.desc?.isEmpty() == true) {
-                val newExpense=expense.copy(memory = Memory())
-                addExpenseToDB(newExpense, callBack)
+
+            override fun onCancelled(error: DatabaseError) {
+
             }
-        }
+        }) }
+    }
 
+    fun getTotalAmountOf(date:String,callBack: MyCallBack){
+        userRepo.getCurrentUser().uid?.let { database.child(it).child(TOTAL_AMOUNT).child(date).addValueEventListener(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.value?.let { it1 -> callBack.callBack(it1) }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        }) }
 
     }
 
-    private fun addExpenseToDB(newExpense: Expense,callBack: MyCallBack) {
-        val database= Firebase.database.getReference(NODE_USERS)
-        val currentDate=ValidationUtil.getTodayDate()
-        userRepo.getCurrentUser().uid?.let { database.child(it).child(NODE_EXPENSES).child(currentDate).push().setValue(newExpense).addOnCompleteListener{
-            callBack.callBack("Completed")
-        }}
 
-
-    }
 
     interface MyCallBack{
-        fun callBack(response:String)
+        fun callBack(any: Any)
     }
 
 }
