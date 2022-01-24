@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,10 +31,129 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:layout_gravity="center"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/TextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_3x"
+                android:gravity="start"
+                android:text="Add Amount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_3x"
+                android:layout_marginTop="@dimen/spacing_3x"
+                android:layout_marginEnd="@dimen/spacing_3x"
+                android:background="@drawable/edit_text_bg"
+                android:cursorVisible="false"
+                android:hint="0"
+                android:inputType="numberDecimal"
+                android:padding="@dimen/spacing_4x"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <EditText
+                android:id="@+id/et_purpose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_3x"
+                android:background="@drawable/edit_text_bg"
+                android:hint="What for?"
+                android:padding="@dimen/spacing_4x"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_amount" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_3x"
+                app:singleSelection="true"
+                app:chipSpacingHorizontal="@dimen/spacing_4x"
+                app:layout_constraintTop_toBottomOf="@+id/et_purpose"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_3x"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chip_group">
+
+                <EditText
+                    android:id="@+id/et_memories_desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:hint="Any memories?"
+                    android:padding="@dimen/spacing_4x"
+                    android:layout_margin="@dimen/spacing_half_x"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_add_image"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btn_add_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/et_memories_desc"
+                    android:layout_margin="@dimen/spacing_2x"
+                    android:src="@drawable/ic_add_image"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_image_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_memories_desc">
+
+                    <ImageView
+                        android:id="@+id/iv_preview"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginStart="@dimen/spacing_2x"
+                        android:layout_marginTop="@dimen/spacing_2x"
+                        android:layout_marginEnd="@dimen/spacing_2x"
+                        android:layout_marginBottom="@dimen/spacing_2x"
+                        android:background="@drawable/edit_text_bg"
+                        android:padding="@dimen/spacing_2x"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_add_image"
+                        android:visibility="visible" />
+
+                    <ImageButton
+                        android:id="@+id/ib_image_close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_close"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:elevation="@dimen/spacing_1x"
+                        android:background="@drawable/edit_text_bg"
+                        android:layout_alignEnd="@id/iv_preview"/>
+                </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
