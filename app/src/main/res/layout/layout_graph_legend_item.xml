@@ -32,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
+        android:maxWidth="@dimen/spacing_12x"
         tools:text="@string/app_name"
         android:layout_marginStart="@dimen/spacing_3x"
         app:layout_constraintBottom_toBottomOf="@+id/iv_legend_color"

@@ -74,6 +74,8 @@ class MainActivityViewModel(
 
             is MainActivityViewActions.ProfileButtonClicked -> _viewEvents.setValue(MainActivityViewEvents.OpenProfileActivity)
 
+            is MainActivityViewActions.ApplicationDestroyed -> corePreferences.selectedDate= Util.getTodayDate()
+
         }
     }
 
@@ -151,7 +153,7 @@ sealed class MainActivityViewActions:ViewModelAction{
     object AddExpenseButtonClicked : MainActivityViewActions()
 
     object ProfileButtonClicked:MainActivityViewActions()
-
+    object ApplicationDestroyed : MainActivityViewActions()
 
 }
 

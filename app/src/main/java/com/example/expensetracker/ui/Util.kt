@@ -25,7 +25,7 @@ class Util {
 
         fun commaSeparateAmount(amount: String): String {
 
-            val formatter = DecimalFormat("#,###")
+            val formatter = DecimalFormat("#,##,###")
             return try {
                 formatter.format(amount.replace(",","").toLong())
             } catch (e:NumberFormatException){
@@ -100,11 +100,14 @@ class Util {
 
 
             return when {
-                (number/1000000)>=1 -> {
-                    String.format("%.1f",(number/1000000.0)) + "m";
+                (number/10000000)>=1 -> {
+                    String.format("%.1f",(number/10000000.0)) + "Cr";
+                }
+                (number/100000)>=1 ->{
+                    String.format("%.1f",(number/100000.0))+"L"
                 }
                 number/1000>=1 -> {
-                    String.format("%.1f",(number/1000.0))+ "k"
+                    String.format("%.1f",(number/1000.0))+ "K"
                 }
                 else -> number.toString()
             }
