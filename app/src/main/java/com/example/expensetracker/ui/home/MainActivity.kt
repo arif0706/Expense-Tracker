@@ -114,5 +114,8 @@ class MainActivity:AppCompatActivity() {
         AddExpenseDialogFragment.display(supportFragmentManager,currentDate)
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.handle(MainActivityViewActions.ApplicationDestroyed)
+    }
 }
