@@ -48,6 +48,7 @@ val viewModelModule= module {
             args=args,
             get(),
             get(),
+            get(),
             get()
         )
     }

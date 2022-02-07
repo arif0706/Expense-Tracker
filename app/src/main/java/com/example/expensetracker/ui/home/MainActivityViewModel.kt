@@ -74,7 +74,7 @@ class MainActivityViewModel(
 
             is MainActivityViewActions.ProfileButtonClicked -> _viewEvents.setValue(MainActivityViewEvents.OpenProfileActivity)
 
-            is MainActivityViewActions.ApplicationDestroyed -> corePreferences.selectedDate= Util.getTodayDate()
+            is MainActivityViewActions.ApplicationDestroyed -> corePreferences.selectedDate="Destroyed"
 
         }
     }

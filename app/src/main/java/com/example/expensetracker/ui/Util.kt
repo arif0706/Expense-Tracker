@@ -192,7 +192,7 @@ class Util {
         }
 
 
-        val categories:List<String> = listOf("All","Home","Travel","Food","Bills","Recharge","Shopping","Health")
+//        val categories:List<String> = listOf("All","Home","Travel","Food","Bills","Recharge","Shopping","Health")
 
     }
 

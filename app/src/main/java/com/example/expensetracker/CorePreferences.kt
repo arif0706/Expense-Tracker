@@ -18,7 +18,7 @@ class CorePreferences(private val sharedPreferences: SharedPreferences) {
         }
     }
     get() {
-        return sharedPreferences.getString(CATEGORY,"all")?:"all"
+        return sharedPreferences.getString(CATEGORY,"All")?:"All"
     }
 
     var selectedDate:String
@@ -28,6 +28,9 @@ class CorePreferences(private val sharedPreferences: SharedPreferences) {
         }
     }
     get(){
+        if(sharedPreferences.getString(SELECTED_DATE,Util.getTodayDate())?:Util.getTodayDate()=="Destroyed"){
+            selectedDate=Util.getTodayDate()
+        }
         return sharedPreferences.getString(SELECTED_DATE,Util.getTodayDate())?:Util.getTodayDate()
     }
 

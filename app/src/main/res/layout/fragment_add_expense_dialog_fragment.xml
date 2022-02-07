@@ -57,7 +57,6 @@
                 android:background="@drawable/edit_text_bg"
                 android:drawableStart="@drawable/ic_indian_rupee_symbol"
                 android:drawablePadding="@dimen/spacing_2x"
-                android:cursorVisible="false"
                 android:hint="0"
                 android:inputType="numberDecimal"
                 android:padding="@dimen/spacing_4x"

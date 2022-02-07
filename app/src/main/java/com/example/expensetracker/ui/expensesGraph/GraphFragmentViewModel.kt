@@ -1,11 +1,13 @@
 package com.example.expensetracker.ui.expensesGraph
 
 import androidx.lifecycle.viewModelScope
+import com.example.core.Config
 import com.example.core.platform.BaseViewModel
 import com.example.core.platform.ViewEvents
 import com.example.core.platform.ViewModelAction
 import com.example.core.platform.ViewState
 import com.example.expensetracker.CorePreferences
+import com.example.expensetracker.models.Categories
 import com.example.expensetracker.models.ExpenseTransaction
 import com.example.expensetracker.repositories.ExpensesActivityRepo
 import com.example.expensetracker.repositories.MainActivityRepo
@@ -17,10 +19,13 @@ class GraphFragmentViewModel(
     private val args:GraphFragmentArgs,
    private val expensesActivityRepo: ExpensesActivityRepo,
     private val mainActivityRepo: MainActivityRepo,
-   private val corePreferences: CorePreferences
+   private val corePreferences: CorePreferences,
+    private val config:Config
 ):BaseViewModel<GraphFragmentViewEvents,GraphFragmentViewState>(GraphFragmentViewState())
 
 {
+    val categories= config.getObjectifiedValue<Categories>(Config.KEY_CATEGORIES)?.categories!!
+
     init{
         viewModelScope.launch {
 
@@ -53,7 +58,7 @@ class GraphFragmentViewModel(
         expensesActivityRepo.getExpensesByCategory(date,"All",object :ExpensesActivityRepo.MyCallBack{
             override fun callBack(any: Any) {
                 val hash= hashMapOf<String,MutableList<ExpenseTransaction>>()
-                Util.categories.forEach {
+                categories.forEach {
                     hash[it] = mutableListOf()
                 }
 
@@ -63,7 +68,7 @@ class GraphFragmentViewModel(
                 }
 
                 val pieEntries= arrayListOf<PieEntry>()
-                Util.categories.forEach { outerCategories ->
+                categories.forEach { outerCategories ->
                     var sum=0
                     hash[outerCategories]?.forEach {
                          sum += it.amount?.let { it1 -> Util.commaLessAmount(it1) }?.toInt()
