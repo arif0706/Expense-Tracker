@@ -1,6 +1,7 @@
 package com.example.expensetracker.ui.expenses
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -12,9 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.extentions.activityArgs
 import com.example.core.extentions.toBundle
 import com.example.expensetracker.R
+import com.example.expensetracker.models.ExpenseTransaction
 import com.example.expensetracker.models.Memory
 import com.example.expensetracker.ui.Util
 import com.example.expensetracker.ui.home.SortSelectionSheet
+import com.example.expensetracker.ui.toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_expenses.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -116,11 +120,32 @@ class ExpensesActivity : AppCompatActivity() {
 
 
     private fun setAdapter(){
-        adapter=ExpensesAdapter(this){
-            viewModel.handle(ExpensesActivityViewActions.OpenFullImage(it))
-        }
+        adapter=ExpensesAdapter(this,
+                {
+                 viewModel.handle(ExpensesActivityViewActions.OpenFullImage(it))
+                },
+                {
+                showDialog(it)
+                }
+        )
         recycler_view.layoutManager= LinearLayoutManager(this)
         recycler_view.adapter=adapter
+    }
+
+    private fun showDialog(expenseTransaction: ExpenseTransaction) {
+
+        val alertDialog=MaterialAlertDialogBuilder(this)
+        alertDialog.setTitle("Delete")
+        alertDialog.setMessage("Do you want to delete this transaction?")
+        alertDialog.setCancelable(false)
+        alertDialog.setPositiveButton("ok",object :DialogInterface.OnClickListener{
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                viewModel.handle(ExpensesActivityViewActions.DeleteTransaction(expenseTransaction))
+            }
+        })
+            .setNegativeButton("cancel"
+            ) { _, _ -> }
+            .show()
     }
 }
 

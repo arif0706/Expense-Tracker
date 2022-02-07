@@ -73,7 +73,7 @@ class ExpensesActivityViewModel (
             is ExpensesActivityViewActions.FilterClicked -> _viewEvents.setValue(ExpenseActivityViewEvents.OpenFilterList)
 
             is ExpensesActivityViewActions.OpenFullImage -> _viewEvents.setValue(ExpenseActivityViewEvents.OpenFullImageDialog(actions.memory))
-
+            is ExpensesActivityViewActions.DeleteTransaction -> expensesActivityRepo.deleteTransaction(actions.expenseTransaction,args.date)
         }
     }
 
@@ -104,4 +104,5 @@ sealed class ExpensesActivityViewActions : ViewModelAction {
     class CategoryClicked(val category:String): ExpensesActivityViewActions()
     object  FilterClicked:ExpensesActivityViewActions()
     class OpenFullImage(val memory: Memory):ExpensesActivityViewActions()
+    class DeleteTransaction(val expenseTransaction: ExpenseTransaction):ExpensesActivityViewActions()
 }

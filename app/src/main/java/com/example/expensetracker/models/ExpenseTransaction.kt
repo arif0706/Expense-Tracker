@@ -3,6 +3,7 @@ package com.example.expensetracker.models
 import java.util.*
 
 data class ExpenseTransaction(
+    val id:String?=null,
     val date:Date?=null,
     val amount:String?=null,
     val purpose:String?=null,

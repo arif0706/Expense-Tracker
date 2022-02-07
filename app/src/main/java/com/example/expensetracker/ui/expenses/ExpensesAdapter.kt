@@ -16,7 +16,8 @@ import com.example.expensetracker.models.Memory
 import com.example.expensetracker.ui.Util
 
 class ExpensesAdapter(val context: Context,
-                      val callback:(expense: Memory)->Unit
+                      val singleClickCallback:(expense: Memory)->Unit,
+                      val longClickCallback:(expense:ExpenseTransaction)->Unit
 )
     : RecyclerView.Adapter<BaseViewHolder<ExpenseTransaction>>() {
 
@@ -34,7 +35,11 @@ class ExpensesAdapter(val context: Context,
 
         if(expense.memory!=null)
         holder.itemView.setOnClickListener{
-            callback(expense.memory)
+            singleClickCallback(expense.memory)
+        }
+        holder.itemView.setOnLongClickListener{
+            longClickCallback(expense)
+            return@setOnLongClickListener true
         }
 
     }
@@ -56,6 +61,8 @@ class ExpenseViewHolder(itemView: View):BaseViewHolder<ExpenseTransaction>(itemV
     private val tvPurpose=itemView.findViewById<TextView>(R.id.tv_purpose)
     private val ivImage=itemView.findViewById<ImageView>(R.id.iv_preview)
     override fun onBind(model: ExpenseTransaction) {
+
+
         tvAmount.text= model.amount?.let { Util.appendRupee(Util.commaSeparateAmount(it)) }
         tvPurpose.text=model.purpose
 

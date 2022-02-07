@@ -10,6 +10,7 @@ import com.example.expensetracker.repositories.FirebaseNodes.Companion.TOTAL_AMO
 import com.example.expensetracker.repositories.FirebaseNodes.Companion.database
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 
@@ -35,7 +36,7 @@ class ExpensesActivityRepo(
 
 
                                 if (value?.category == category) {
-                                    list.add(value)
+                                    list.add(value.copy(id=postSnapShot.key))
                                 }
                             }
 
@@ -55,7 +56,7 @@ class ExpensesActivityRepo(
             override fun onDataChange(snapshot: DataSnapshot) {
                  val list= arrayListOf<ExpenseTransaction>()
                 for(postSnapshot in snapshot.children){
-                    postSnapshot.getValue(ExpenseTransaction::class.java)?.let { it1 -> list.add(it1) }
+                    postSnapshot.getValue(ExpenseTransaction::class.java)?.let { it1 -> list.add(it1.copy(id=postSnapshot.key)) }
                 }
                 callBack.callBack(list)
             }
@@ -139,6 +140,53 @@ class ExpensesActivityRepo(
             }
         }) }
 
+    }
+
+    fun deleteTransaction(expenseTransaction: ExpenseTransaction, date: String) {
+        userRepo.getCurrentUser().uid?.let { database.child(it).child(NODE_EXPENSES).child(date).child(expenseTransaction.id!!).removeValue(object :DatabaseReference.CompletionListener{
+            override fun onComplete(error: DatabaseError?, ref: DatabaseReference) {
+                 database.child(it).child(TOTAL_AMOUNT).child(date).addListenerForSingleValueEvent(object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        var currentAmount="0"
+                        if(snapshot.exists()){
+                            currentAmount=snapshot.value.toString()
+                        }
+                        var newAmount:Int?=currentAmount.toInt() - expenseTransaction.amount?.toInt()!!
+
+                        if(newAmount!!<=0){
+                            newAmount = null
+                        }
+                        database.child(it).child(TOTAL_AMOUNT).child(date).setValue(newAmount)
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+            }
+
+        })
+        }
+
+        userRepo.getCurrentUser().uid?.let{ database.child(it).child(CATEGORY_AMOUNT).child(expenseTransaction.category.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var currentAmount="0"
+                if(snapshot.exists()){
+                    currentAmount=snapshot.value.toString()
+                }
+
+                var newAmount:Int?=currentAmount.toInt() - expenseTransaction.amount?.toInt()!!
+
+                if(newAmount!!<=0){
+                    newAmount=null
+                }
+                database.child(it).child(CATEGORY_AMOUNT).child(expenseTransaction.category.toString()).setValue(newAmount)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        }
     }
 
 
