@@ -14,6 +14,7 @@ import com.example.expensetracker.R
 import com.example.expensetracker.models.ExpenseTransaction
 import com.example.expensetracker.models.Memory
 import com.example.expensetracker.ui.Util
+import kotlinx.android.synthetic.main.activity_expenses.*
 
 class ExpensesAdapter(val context: Context,
                       val singleClickCallback:(expense: Memory)->Unit,
@@ -33,15 +34,15 @@ class ExpensesAdapter(val context: Context,
         val expense=expensesList[position]
         holder.onBind(expense)
 
-        if(expense.memory!=null)
-        holder.itemView.setOnClickListener{
-            singleClickCallback(expense.memory)
+        if(expense.memory!=null) {
+            holder.itemView.setOnClickListener {
+                singleClickCallback(expense.memory)
+            }
         }
         holder.itemView.setOnLongClickListener{
             longClickCallback(expense)
             return@setOnLongClickListener true
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -50,7 +51,6 @@ class ExpensesAdapter(val context: Context,
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(list:List<ExpenseTransaction>){
-
         expensesList.clear()
         expensesList.addAll(list)
         notifyDataSetChanged()
@@ -61,12 +61,8 @@ class ExpenseViewHolder(itemView: View):BaseViewHolder<ExpenseTransaction>(itemV
     private val tvPurpose=itemView.findViewById<TextView>(R.id.tv_purpose)
     private val ivImage=itemView.findViewById<ImageView>(R.id.iv_preview)
     override fun onBind(model: ExpenseTransaction) {
-
-
         tvAmount.text= model.amount?.let { Util.appendRupee(Util.commaSeparateAmount(it)) }
         tvPurpose.text=model.purpose
-
         Glide.with(itemView.context).load(model.memory?.url).into(ivImage)
-
     }
 }

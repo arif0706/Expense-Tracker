@@ -30,15 +30,13 @@ class ExpensesActivityViewModel (
 
     private fun fetchDayExpenses() {
 
-
          setState {copy(isLoading = true) }
          setState { copy(
              sortList = config.getObjectifiedValue<Categories>(Config.KEY_CATEGORIES)?.categories!!,
              category = corePreferences.category
          ) }
 
-       viewModelScope.launch {
-
+        viewModelScope.launch {
             corePreferences.category.let {
                 expensesActivityRepo.getExpensesByCategory(args.date,category = it, object : ExpensesActivityRepo.MyCallBack {
                     override fun callBack(any: Any) {
