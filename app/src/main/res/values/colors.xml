@@ -22,6 +22,9 @@
     <color name="graph_five">#4BAA77</color>
     <color name="graph_six">#42CDBF</color>
     <color name="graph_seven">#0072F5</color>
-
+    <color name="graph_eight">#fC73AA</color>
+    <color name="graph_nine">#9F492D</color>
+    <color name="graph_ten">#70808F</color>
+    <color name="graph_eleven">#b02754</color>
 
 </resources>

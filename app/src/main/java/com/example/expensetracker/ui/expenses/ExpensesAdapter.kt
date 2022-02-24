@@ -14,11 +14,11 @@ import com.example.expensetracker.R
 import com.example.expensetracker.models.ExpenseTransaction
 import com.example.expensetracker.models.Memory
 import com.example.expensetracker.ui.Util
-import kotlinx.android.synthetic.main.activity_expenses.*
+import com.google.android.material.button.MaterialButton
 
 class ExpensesAdapter(val context: Context,
                       val singleClickCallback:(expense: Memory)->Unit,
-                      val longClickCallback:(expense:ExpenseTransaction)->Unit
+                      val deleteCallBack:(expense:ExpenseTransaction)->Unit
 )
     : RecyclerView.Adapter<BaseViewHolder<ExpenseTransaction>>() {
 
@@ -39,9 +39,9 @@ class ExpensesAdapter(val context: Context,
                 singleClickCallback(expense.memory)
             }
         }
-        holder.itemView.setOnLongClickListener{
-            longClickCallback(expense)
-            return@setOnLongClickListener true
+        
+        holder.itemView.findViewById<MaterialButton>(R.id.btn_delete).setOnClickListener{
+            deleteCallBack(expense)
         }
     }
 
@@ -60,9 +60,11 @@ class ExpenseViewHolder(itemView: View):BaseViewHolder<ExpenseTransaction>(itemV
     private val tvAmount=itemView.findViewById<TextView>(R.id.tv_amount)
     private val tvPurpose=itemView.findViewById<TextView>(R.id.tv_purpose)
     private val ivImage=itemView.findViewById<ImageView>(R.id.iv_preview)
+    private val btnDelete= itemView.findViewById<MaterialButton>(R.id.btn_delete)
     override fun onBind(model: ExpenseTransaction) {
         tvAmount.text= model.amount?.let { Util.appendRupee(Util.commaSeparateAmount(it)) }
         tvPurpose.text=model.purpose
         Glide.with(itemView.context).load(model.memory?.url).into(ivImage)
+
     }
 }
