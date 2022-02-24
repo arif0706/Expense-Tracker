@@ -9,7 +9,9 @@ class CorePreferences(private val sharedPreferences: SharedPreferences) {
         const val CATEGORY="category"
         const val SELECTED_DATE="selected_date"
         const val START_DATE="start_date"
+        const val TUTORIAL_PROMPT="tutorial_prompt"
     }
+
 
     var category:String
     set(value) {

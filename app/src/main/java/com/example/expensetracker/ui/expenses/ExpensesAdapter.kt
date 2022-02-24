@@ -14,9 +14,11 @@ import com.example.expensetracker.R
 import com.example.expensetracker.models.ExpenseTransaction
 import com.example.expensetracker.models.Memory
 import com.example.expensetracker.ui.Util
+import com.google.android.material.button.MaterialButton
 
 class ExpensesAdapter(val context: Context,
-                      val callback:(expense: Memory)->Unit
+                      val singleClickCallback:(expense: Memory)->Unit,
+                      val deleteCallBack:(expense:ExpenseTransaction)->Unit
 )
     : RecyclerView.Adapter<BaseViewHolder<ExpenseTransaction>>() {
 
@@ -32,11 +34,15 @@ class ExpensesAdapter(val context: Context,
         val expense=expensesList[position]
         holder.onBind(expense)
 
-        if(expense.memory!=null)
-        holder.itemView.setOnClickListener{
-            callback(expense.memory)
+        if(expense.memory!=null) {
+            holder.itemView.setOnClickListener {
+                singleClickCallback(expense.memory)
+            }
         }
-
+        
+        holder.itemView.findViewById<MaterialButton>(R.id.btn_delete).setOnClickListener{
+            deleteCallBack(expense)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -45,7 +51,6 @@ class ExpensesAdapter(val context: Context,
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(list:List<ExpenseTransaction>){
-
         expensesList.clear()
         expensesList.addAll(list)
         notifyDataSetChanged()
@@ -55,10 +60,10 @@ class ExpenseViewHolder(itemView: View):BaseViewHolder<ExpenseTransaction>(itemV
     private val tvAmount=itemView.findViewById<TextView>(R.id.tv_amount)
     private val tvPurpose=itemView.findViewById<TextView>(R.id.tv_purpose)
     private val ivImage=itemView.findViewById<ImageView>(R.id.iv_preview)
+    private val btnDelete= itemView.findViewById<MaterialButton>(R.id.btn_delete)
     override fun onBind(model: ExpenseTransaction) {
         tvAmount.text= model.amount?.let { Util.appendRupee(Util.commaSeparateAmount(it)) }
         tvPurpose.text=model.purpose
-
         Glide.with(itemView.context).load(model.memory?.url).into(ivImage)
 
     }

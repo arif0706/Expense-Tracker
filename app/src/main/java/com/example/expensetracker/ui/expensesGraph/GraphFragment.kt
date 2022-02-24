@@ -89,6 +89,7 @@ class GraphFragment : Fragment() {
     private fun setEmptyGraph() {
 
         Util.setEmptyGraph(pie_chart,requireContext())
+        setLegendAdapter(arrayListOf(), PieDataSet(listOf(),""))
 
     }
 

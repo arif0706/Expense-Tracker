@@ -30,15 +30,13 @@ class ExpensesActivityViewModel (
 
     private fun fetchDayExpenses() {
 
-
          setState {copy(isLoading = true) }
          setState { copy(
              sortList = config.getObjectifiedValue<Categories>(Config.KEY_CATEGORIES)?.categories!!,
              category = corePreferences.category
          ) }
 
-       viewModelScope.launch {
-
+        viewModelScope.launch {
             corePreferences.category.let {
                 expensesActivityRepo.getExpensesByCategory(args.date,category = it, object : ExpensesActivityRepo.MyCallBack {
                     override fun callBack(any: Any) {
@@ -73,7 +71,7 @@ class ExpensesActivityViewModel (
             is ExpensesActivityViewActions.FilterClicked -> _viewEvents.setValue(ExpenseActivityViewEvents.OpenFilterList)
 
             is ExpensesActivityViewActions.OpenFullImage -> _viewEvents.setValue(ExpenseActivityViewEvents.OpenFullImageDialog(actions.memory))
-
+            is ExpensesActivityViewActions.DeleteTransaction -> expensesActivityRepo.deleteTransaction(actions.expenseTransaction,args.date)
         }
     }
 
@@ -104,4 +102,5 @@ sealed class ExpensesActivityViewActions : ViewModelAction {
     class CategoryClicked(val category:String): ExpensesActivityViewActions()
     object  FilterClicked:ExpensesActivityViewActions()
     class OpenFullImage(val memory: Memory):ExpensesActivityViewActions()
+    class DeleteTransaction(val expenseTransaction: ExpenseTransaction):ExpensesActivityViewActions()
 }
